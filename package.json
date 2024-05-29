@@ -1,12 +1,12 @@
 {
   "name": "mmap-node",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.ts",
   "repository": "https://github.com/cunev/mmap-node.git",
   "author": "clubsh <clubsh99@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build":"node-gyp configure build"
+    "build-native":"node-gyp clean configure build"
   },
   "dependencies": {
     "node-addon-api": "^8.0.0",
