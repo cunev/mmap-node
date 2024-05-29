@@ -1,6 +1,8 @@
-const bbmmap = require('./bbmmap.node')
+const bbmmap = require('../bbmmap.node')
 
-const handle = bbmmap.openProcess(31016);
+const handle = bbmmap.openProcess("osu!");
 
-bbmmap.mmap(handle, require('fs').readFileSync('./discordoverlay_dx11.dll'), 1)
+bbmmap.mmap(handle, require('fs').readFileSync('./discordoverlay_dx11.dll'))
 console.log(bbmmap);
+
+setInterval(() => {}, );
