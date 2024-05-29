@@ -1,13 +1,26 @@
+#include <MemoryModule/Loader.h>
 #include <blackbone/manualmap/mmap.h>
 #include <blackbone/process/process.h>
 #include <memory>
+#include <msdia_data.h>
 #include <napi.h>
 #include <stdexcept>
 #include <string>
 
 using namespace blackbone;
 
+namespace {
+bool is_msdia_loaded = false;
+}
+
 Napi::Value mmap(const Napi::CallbackInfo &args) {
+  if (!is_msdia_loaded) {
+    HMEMORYMODULE module;
+    LdrLoadDllMemoryExW(&module, nullptr, 0, msdia_data, 0, L"msdia140.dll",
+                        nullptr);
+    is_msdia_loaded = true;
+  }
+
   Napi::Env env = args.Env();
   if (args.Length() < 2) {
     Napi::Error::New(env, "Wrong number of arguments")
@@ -19,20 +32,8 @@ Napi::Value mmap(const Napi::CallbackInfo &args) {
       reinterpret_cast<HANDLE>(args[0].As<Napi::Number>().Int32Value());
   auto buffer = args[1].As<Napi::Uint8Array>();
 
-  Process process;
-  if (process.Attach(handle) != STATUS_SUCCESS) {
-    return Napi::Boolean::From(env, false);
-  }
-  const auto mmap_result = process.mmap().MapImage(
-      buffer.ByteLength(), buffer.Data(), false, ManualImports | WipeHeader);
-  if (!mmap_result.success()) {
-    return Napi::Boolean::From(env, false);
-  }
-  if (process.Detach() != STATUS_SUCCESS) {
-    return Napi::Boolean::From(env, false);
-  }
-
-  return Napi::Boolean::From(env, true);
+  return Napi::Boolean::From(
+      env, MMap::MapImage(handle, buffer.ByteLength(), buffer.Data()));
 }
 
 Napi::Value openProcess(const Napi::CallbackInfo &args) {

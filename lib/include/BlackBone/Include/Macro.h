@@ -122,7 +122,7 @@ using NTSTATUS = long;
 /// <returns></returns>
 inline NTSTATUS LastNtStatus()
 {
-    return *(NTSTATUS*)((unsigned char*)NtCurrentTeb() + LAST_STATUS_OFS);
+    return 0;
 }
 
 /// <summary>
@@ -132,7 +132,7 @@ inline NTSTATUS LastNtStatus()
 /// <returns></returns>
 inline NTSTATUS SetLastNtStatus( NTSTATUS status )
 {
-    return *(NTSTATUS*)((unsigned char*)NtCurrentTeb() + LAST_STATUS_OFS) = status;
+    return 0;
 }
 
 #define SharedUserData32 ((KUSER_SHARED_DATA* const)0x7FFE0000)
