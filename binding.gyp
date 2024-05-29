@@ -14,9 +14,6 @@
         ['OS=="win"', {
           "msvs_settings": {
             "VCCLCompilerTool": {
-              "AdditionalOptions": [
-                  '/MD',
-              ],
               "PreprocessorDefinitions": [
                 "_WINDOWS"
               ],
@@ -25,7 +22,8 @@
             "VCLinkerTool": {
               "AdditionalDependencies": [
                 "../lib/blackbone.lib",
-                "../lib/diaguids.lib"
+                "../lib/diaguids.lib",
+                "../lib/MemoryModule.lib",
               ],
             }
           }
