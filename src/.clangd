@@ -1,0 +1,6 @@
+CompileFlags:
+  Add:
+    - "-IC:\\Users\\User\\AppData\\Local\\node-gyp\\Cache\\20.9.0\\include\\node"
+    - "-I../lib/include"
+    - "-I../node_modules/node-addon-api"
+    - "-std=c++20"
